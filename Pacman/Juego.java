@@ -1,5 +1,4 @@
 
-
 /**
  * Esta clase maneja el juego
  * Se tiene una referencia al tablero y al pacman
@@ -16,6 +15,7 @@ public class Juego {
     public static final int PUNTOS_VIDA_INICIALES = 10;
     Tablero tablero;
     Pacman pacman;
+    int turnos;
 
     /**
      * Constructor
@@ -23,7 +23,8 @@ public class Juego {
      */
     public Juego() {
         tablero = new Tablero(this);
-        
+        turnos = 0; 
+
     }
 
     /**
@@ -34,27 +35,34 @@ public class Juego {
         tablero.dibujarTablero();
         Scanner in = new Scanner(System.in);
         String linea = in.nextLine();
+
         while (!linea.equals("q") && !ganaElJuego) {
             int fila = pacman.posicion.fila;
             int col = pacman.posicion.col;
             int nuevaFila = fila;
             int nuevaCol = col;
+            turnos=turnos+1;
+            if(turnos==10){
+                pacman.puntosVida=pacman.puntosVida-1; 
+                turnos=0; 
+            }
             switch (linea) {
                 // En este punto se inserta el código para las teclas
                 // "a" y "d"
                 case "w":
-                    nuevaFila = fila - 1;
-                    break;
+                nuevaFila = fila - 1;
+                break;
                 case "s":
-                    nuevaFila = fila + 1;
-                    break;
+                nuevaFila = fila + 1;
+                break;
                 case "d": 
-                    nuevaCol=col+1; 
-                    break; 
+                nuevaCol=col+1; 
+                break; 
                 case "a": 
-                    nuevaCol=col-1;
-                    break; 
+                nuevaCol=col-1;
+                break; 
             }
+
             if (validarCasilla(nuevaFila, nuevaCol)) {
                 Celda anterior = tablero.tablero[fila][col];
                 Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
@@ -63,11 +71,11 @@ public class Juego {
                     anterior.caracter = null;
                     pacman.posicion = new Posicion(nuevaFila, nuevaCol);  
                 }
-                
+
                 // Aquí hay que verificar si el jugador ganó el juego
                 // Esto es, si llega a una parte del laberinto
                 // que es una salida
-                
+
                 if(nueva.esSalida){
                     ganaElJuego = true; 
                     tablero.dibujarTablero();
@@ -75,13 +83,18 @@ public class Juego {
                 }
                 
             }
+            if(pacman.puntosVida <= 0){
+                System.out.println("Has perdido el juego!");
+                break; 
+            }
             tablero.dibujarTablero();
             linea = in.nextLine();
         }
         if(ganaElJuego) {
             System.out.println("Has ganado el juego, ¡felicitaciones!");
-            
+
         }
+
     }
 
     /**
@@ -102,21 +115,21 @@ public class Juego {
         if(nuevaFila>=tablero.tablero.length || nuevaFila<0){
             return false;
         }
-        
+
         if(nuevaCol>=tablero.tablero[0].length || nuevaCol<0){
             return false;
         }
-        
+
         Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
-        
+
         if(nueva.esMuro){
             return false; 
         }
-        
-         if(nueva.caracter != null){
+
+        if(nueva.caracter != null){
             return false; 
         }
-        
+
         return true;
     }
 }
