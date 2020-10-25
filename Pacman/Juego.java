@@ -81,13 +81,17 @@ public class Juego {
                     tablero.dibujarTablero();
                     break; 
                 }
-                
+                if(nueva.tieneArepita && nueva.arepaMala){
+                    pacman.puntosVida=pacman.puntosVida-5; 
+                    nueva.tieneArepita=false; 
+                }
             }
             if(pacman.puntosVida <= 0){
                 System.out.println("Has perdido el juego!");
                 break; 
             }
             tablero.dibujarTablero();
+            System.out.println("puntos de vida " + pacman.puntosVida);
             linea = in.nextLine();
         }
         if(ganaElJuego) {

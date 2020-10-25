@@ -73,10 +73,10 @@ public class Tablero {
                 char c = linea.charAt(col);
                 // esMuro, esSalida, tienearepita, caracter
                 if (c == '*') {
-                    tablero[fila][col] = new Celda(true, false, false, null);
+                    tablero[fila][col] = new Celda(true, false, false,false, null);
                 }
                 if (c == ' ') {
-                    tablero[fila][col] = new Celda(false, false, false, null);
+                    tablero[fila][col] = new Celda(false, false, false,false, null);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class Tablero {
                         int col = new Random().nextInt(numCols) ; 
                         Celda cel = tablero[fila][col] ; 
                         if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
-                            tablero[fila][col] = new Celda(false, false, true, null);
+                            tablero[fila][col] = new Celda(false, false, true,true, null);
                             arepitaValida=true; 
                         }
                     }
