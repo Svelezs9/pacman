@@ -102,13 +102,17 @@ public class Juego {
         if(nuevaFila>=tablero.tablero.length || nuevaFila<0){
             return false;
         }
+        
         if(nuevaCol>=tablero.tablero[0].length || nuevaCol<0){
             return false;
         }
+        
         Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
+        
         if(nueva.esMuro){
             return false; 
         }
+        
          if(nueva.caracter != null){
             return false; 
         }
