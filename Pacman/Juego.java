@@ -75,7 +75,7 @@ public class Juego {
                 // Aquí hay que verificar si el jugador ganó el juego
                 // Esto es, si llega a una parte del laberinto
                 // que es una salida
-
+                
                 if(nueva.esSalida){
                     ganaElJuego = true; 
                     tablero.dibujarTablero();
@@ -84,6 +84,9 @@ public class Juego {
                 if(nueva.tieneArepita && nueva.arepaMala){
                     pacman.puntosVida=pacman.puntosVida-5; 
                     nueva.tieneArepita=false; 
+                } else if(nueva.tieneArepita){
+                    pacman.puntosVida=pacman.puntosVida+1;
+                    nueva.tieneArepita=false;
                 }
             }
             if(pacman.puntosVida <= 0){

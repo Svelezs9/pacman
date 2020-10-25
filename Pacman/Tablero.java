@@ -1,5 +1,4 @@
 
-
 /**
  * En esta clase se mantiene la información del tablero
  * El tablero es una matriz (arreglo de dos dimensiones) de Celdas
@@ -11,32 +10,32 @@ import java.util.Scanner;
 import java.util.Random; 
 
 public class Tablero {
-    
+
     Juego juego;
     Celda[][] tablero;
     int numFilas;
     int numCols;
     String[] archivo = { 
-        "15 17",
-        "*****************",
-        "*               *",
-        "* ****** ****** *",
-        "* *    * *    * *",
-        "*               *",
-        "* *    * *    * *",
-        "* ****** ****** *",
-        "*               *",
-        "* ****** ****** *",
-        "* *    * *    * *",
-        "*               *",
-        "* *    * *    * *",
-        "* ****** ****** *",
-        "*               *",
-        "*****************",
-        "P 1 1",
-        "O 13 15",
-        "A 5"
-    };
+            "15 17",
+            "*****************",
+            "*               *",
+            "* ****** ****** *",
+            "* *    * *    * *",
+            "*               *",
+            "* *    * *    * *",
+            "* ****** ****** *",
+            "*               *",
+            "* ****** ****** *",
+            "* *    * *    * *",
+            "*               *",
+            "* *    * *    * *",
+            "* ****** ****** *",
+            "*               *",
+            "*****************",
+            "P 1 1",
+            "O 13 15",
+            "A 20"
+        };
 
     /**
      * Constructor
@@ -114,13 +113,20 @@ public class Tablero {
                             arepitaValida=true; 
                         }
                     }
-                    
+
                 }
             }
-            
+
         }
-        
-        
+        for (int fila = 0; fila < numFilas; fila++) {
+            for (int col = 0; col < numCols; col++) {
+                Celda cel = tablero[fila][col] ; 
+                if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
+                    tablero[fila][col] = new Celda(false, false, true, false, null);
+                }
+            }
+        }
+
     }
 
     /**
