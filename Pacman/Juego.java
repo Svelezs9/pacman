@@ -58,7 +58,7 @@ public class Juego {
             if (validarCasilla(nuevaFila, nuevaCol)) {
                 Celda anterior = tablero.tablero[fila][col];
                 Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
-                if(!nueva.esMuro){
+                if(validarCasilla(nuevaFila, nuevaCol)){
                     nueva.caracter = pacman;
                     anterior.caracter = null;
                     pacman.posicion = new Posicion(nuevaFila, nuevaCol);  
@@ -98,6 +98,25 @@ public class Juego {
     private boolean validarCasilla(int nuevaFila, int nuevaCol) {
         // Aquí hay que verificar que sea un movimiento válido
         // Ver los comentarios del método
+
+        if(nuevaFila>=tablero.tablero.length || nuevaFila<0){
+            return false;
+        }
+        
+        if(nuevaCol>=tablero.tablero[0].length || nuevaCol<0){
+            return false;
+        }
+        
+        Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
+        
+        if(nueva.esMuro){
+            return false; 
+        }
+        
+         if(nueva.caracter != null){
+            return false; 
+        }
+        
         return true;
     }
 }
