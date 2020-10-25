@@ -1,5 +1,4 @@
 
-
 /**
  * En esta clase se mantiene la información del tablero
  * El tablero es una matriz (arreglo de dos dimensiones) de Celdas
@@ -8,33 +7,35 @@
  * @author User
  */
 import java.util.Scanner;
+import java.util.Random; 
 
 public class Tablero {
-   
+
     Juego juego;
     Celda[][] tablero;
     int numFilas;
     int numCols;
-    String[] archivo = {
-        "15 17",
-        "*****************",
-        "*               *",
-        "* ****** ****** *",
-        "* *    * *    * *",
-        "*               *",
-        "* *    * *    * *",
-        "* ****** ****** *",
-        "*               *",
-        "* ****** ****** *",
-        "* *    * *    * *",
-        "*               *",
-        "* *    * *    * *",
-        "* ****** ****** *",
-        "*               *",
-        "*****************",
-        "P 1 1",
-        "O 13 15"
-    };
+    String[] archivo = { 
+            "15 17",
+            "*****************",
+            "*               *",
+            "* ****** ****** *",
+            "* *    * *    * *",
+            "*               *",
+            "* *    * *    * *",
+            "* ****** ****** *",
+            "*               *",
+            "* ****** ****** *",
+            "* *    * *    * *",
+            "*               *",
+            "* *    * *    * *",
+            "* ****** ****** *",
+            "*               *",
+            "*****************",
+            "P 1 1",
+            "O 13 15",
+            "A 20"
+        };
 
     /**
      * Constructor
@@ -71,10 +72,10 @@ public class Tablero {
                 char c = linea.charAt(col);
                 // esMuro, esSalida, tienearepita, caracter
                 if (c == '*') {
-                    tablero[fila][col] = new Celda(true, false, false, null);
+                    tablero[fila][col] = new Celda(true, false, false,false, null);
                 }
                 if (c == ' ') {
-                    tablero[fila][col] = new Celda(false, false, false, null);
+                    tablero[fila][col] = new Celda(false, false, false,false, null);
                 }
             }
         }
@@ -99,6 +100,30 @@ public class Tablero {
                 int fila = lineScan.nextInt();
                 int col = lineScan.nextInt();
                 tablero[fila][col].esSalida = true;
+            } else if(linea.charAt(0) == 'A'){
+                int na = lineScan.nextInt();
+                for(int j=0;j<na;j++){
+                    boolean arepitaValida = false; 
+                    while(!arepitaValida){
+                        int fila = new Random().nextInt(numFilas);
+                        int col = new Random().nextInt(numCols) ; 
+                        Celda cel = tablero[fila][col] ; 
+                        if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
+                            tablero[fila][col] = new Celda(false, false, true,true, null);
+                            arepitaValida=true; 
+                        }
+                    }
+
+                }
+            }
+
+        }
+        for (int fila = 0; fila < numFilas; fila++) {
+            for (int col = 0; col < numCols; col++) {
+                Celda cel = tablero[fila][col] ; 
+                if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
+                    tablero[fila][col] = new Celda(false, false, true, false, null);
+                }
             }
         }
 

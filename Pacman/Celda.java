@@ -8,7 +8,9 @@ public class Celda {
     boolean esMuro;             // True si esta celda es muro (pared)
     boolean esSalida;           // True si esta celda es una salida del laberinto
     boolean tieneArepita;       // True si esta celda tiene una arepita
+    boolean arepaMala; 
     Caracter caracter;          // Referenia al caracter que ocupa la celda o null si no hay caracter
+    
      
     /**
      * Constructor
@@ -17,10 +19,11 @@ public class Celda {
      * @param tieneArepita true si esta celda tiene una arepita, false de lo contrario
      * @param caracter  referencia al caracter que ocupa la celda, o null si no hay caracter
      */
-    public Celda(boolean esMuro, boolean esSalida, boolean tieneArepita, Caracter caracter) {
+    public Celda(boolean esMuro, boolean esSalida, boolean tieneArepita,boolean arepaMala, Caracter caracter) {
         this.esMuro = esMuro;
         this.esSalida = esSalida;
         this.tieneArepita = tieneArepita;
+        this.arepaMala = arepaMala; 
         this.caracter = caracter;
     }
     
