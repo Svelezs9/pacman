@@ -8,14 +8,15 @@
  * @author User
  */
 import java.util.Scanner;
+import java.util.Random; 
 
 public class Tablero {
-   
+    
     Juego juego;
     Celda[][] tablero;
     int numFilas;
     int numCols;
-    String[] archivo = {
+    String[] archivo = { 
         "15 17",
         "*****************",
         "*               *",
@@ -33,7 +34,8 @@ public class Tablero {
         "*               *",
         "*****************",
         "P 1 1",
-        "O 13 15"
+        "O 13 15",
+        "A 5"
     };
 
     /**
@@ -99,9 +101,26 @@ public class Tablero {
                 int fila = lineScan.nextInt();
                 int col = lineScan.nextInt();
                 tablero[fila][col].esSalida = true;
+            } else if(linea.charAt(0) == 'A'){
+                int na = lineScan.nextInt();
+                for(int j=0;j<na;j++){
+                    boolean arepitaValida = false; 
+                    while(!arepitaValida){
+                        int fila = new Random().nextInt(numFilas);
+                        int col = new Random().nextInt(numCols) ; 
+                        Celda cel = tablero[fila][col] ; 
+                        if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
+                            tablero[fila][col] = new Celda(false, false, true, null);
+                            arepitaValida=true; 
+                        }
+                    }
+                    
+                }
             }
+            
         }
-
+        
+        
     }
 
     /**
