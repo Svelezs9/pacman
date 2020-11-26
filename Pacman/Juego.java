@@ -75,7 +75,7 @@ public class Juego {
                 // Aquí hay que verificar si el jugador ganó el juego
                 // Esto es, si llega a una parte del laberinto
                 // que es una salida
-                
+
                 if(nueva.esSalida){
                     ganaElJuego = true; 
                     tablero.dibujarTablero();
@@ -91,6 +91,7 @@ public class Juego {
             }
             if(pacman.puntosVida <= 0){
                 System.out.println("Has perdido el juego!");
+
                 break; 
             }
             tablero.dibujarTablero();
@@ -119,10 +120,12 @@ public class Juego {
         // Aquí hay que verificar que sea un movimiento válido
         // Ver los comentarios del método
 
+        //tablero.tablero.length es el numero de filas 
         if(nuevaFila>=tablero.tablero.length || nuevaFila<0){
             return false;
         }
-
+        
+        //la longitud de la fila que representa el numero de columnas 
         if(nuevaCol>=tablero.tablero[0].length || nuevaCol<0){
             return false;
         }

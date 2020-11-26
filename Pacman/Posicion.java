@@ -11,7 +11,7 @@ public class Posicion {
     /**
      * Constructor 
      * @param fila representa la fila en la posicion 
-     * @param col 
+     * @param col representa la columna en la posicion 
      */
     public Posicion(int fila, int col) {
         this.fila = fila;

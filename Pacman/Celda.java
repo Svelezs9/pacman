@@ -17,6 +17,7 @@ public class Celda {
      * @param esMuro true si esta celda es muro, false de lo contrario
      * @param esSalida true si esta celda es Salida, false de lo contrario
      * @param tieneArepita true si esta celda tiene una arepita, false de lo contrario
+     * @param arepaMala true si esta celda tiene una arepita y ademas es mal, del contrario es falsa
      * @param caracter  referencia al caracter que ocupa la celda, o null si no hay caracter
      */
     public Celda(boolean esMuro, boolean esSalida, boolean tieneArepita,boolean arepaMala, Caracter caracter) {
