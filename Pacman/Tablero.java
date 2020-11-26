@@ -34,7 +34,8 @@ public class Tablero {
             "*****************",
             "P 1 1",
             "O 13 15",
-            "A 20"
+            "A 20",
+            "F 3"
         };
 
     /**
@@ -111,6 +112,25 @@ public class Tablero {
                         if(!cel.esMuro && !cel.esSalida && !cel.tieneArepita && cel.caracter == null){
                             tablero[fila][col] = new Celda(false, false, true,true, null);
                             arepitaValida=true; 
+                        }
+                    }
+
+                }
+            }else if(linea.charAt(0) == 'F'){
+                 int na = lineScan.nextInt();
+                 juego.fantasmas = new Fantasma[na]; 
+                for(int j=0;j<na;j++){
+                    boolean fantasmaValido = false; 
+                    while(!fantasmaValido){
+                        int fila = new Random().nextInt(numFilas);
+                        int col = new Random().nextInt(numCols); 
+                        Celda cel = tablero[fila][col] ; 
+                        if(!cel.esMuro && !cel.esSalida && cel.caracter == null 
+                        && juego.pacman.posicion.fila != fila && juego.pacman.posicion.col != col){
+                            Posicion posicion = new Posicion(fila, col);
+                            juego.fantasmas[j] = new Fantasma(Caracter.FANTASMA, posicion, 'w');
+                            tablero[posicion.fila][posicion.col].caracter = juego.fantasmas[j];
+                            fantasmaValido=true; 
                         }
                     }
 

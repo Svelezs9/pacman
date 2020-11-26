@@ -6,7 +6,7 @@
  * @author Helmuth Trefftz
  */
 import java.util.Scanner;
-
+import java.util.Random; 
 public class Juego {
 
     /**
@@ -15,6 +15,7 @@ public class Juego {
     public static final int PUNTOS_VIDA_INICIALES = 10;
     Tablero tablero;
     Pacman pacman;
+    Fantasma[] fantasmas;
     int turnos;
 
     /**
@@ -66,6 +67,10 @@ public class Juego {
             if (validarCasilla(nuevaFila, nuevaCol)) {
                 Celda anterior = tablero.tablero[fila][col];
                 Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
+                if(nueva.caracter != null){
+                    System.out.println("Has perdido el juego!");
+                    break; 
+                }
                 if(validarCasilla(nuevaFila, nuevaCol)){
                     nueva.caracter = pacman;
                     anterior.caracter = null;
@@ -88,21 +93,124 @@ public class Juego {
                     pacman.puntosVida=pacman.puntosVida+1;
                     nueva.tieneArepita=false;
                 }
+
             }
             if(pacman.puntosVida <= 0){
                 System.out.println("Has perdido el juego!");
-
                 break; 
             }
+            boolean seMovieron = moverFantasmas();
             tablero.dibujarTablero();
-            System.out.println("puntos de vida " + pacman.puntosVida);
-            linea = in.nextLine();
+            if(seMovieron){
+                System.out.println("puntos de vida " + pacman.puntosVida);
+                linea = in.nextLine();
+            } else{ 
+                System.out.println("Has perdido el juego!");
+                break; 
+            }
+            
         }
         if(ganaElJuego) {
             System.out.println("Has ganado el juego, ¡felicitaciones!");
 
         }
 
+    }
+
+    /**
+     * movimiento de los fantasmas 
+     */
+    public boolean moverFantasmas(){
+        for(int i = 0; i < fantasmas.length; i++){
+            int fila = fantasmas[i].posicion.fila;
+            int col = fantasmas[i].posicion.col;
+            boolean movimientoValido = false; 
+            int nuevaCol = col;
+            int nuevaFila = fila;
+            int filaInt = fila; 
+            int colInt = col; 
+            if(fila == pacman.posicion.fila){
+                if(col > pacman.posicion.col){
+                    nuevaCol = col-2;
+                    colInt = col-1;
+                } else { 
+                    nuevaCol = col+2;
+                    colInt = col +1; 
+                } 
+                int movimiento = moverFantasma(fantasmas[i],fila,col,nuevaFila,nuevaCol,filaInt,colInt); 
+                if (movimiento == 1) {
+                    movimientoValido= true; 
+                } else if (movimiento == 2){
+                    return false; 
+                }
+            }
+            else if(col == pacman.posicion.col){
+                if(fila > pacman.posicion.fila){
+                    nuevaFila = fila-2;
+                    filaInt = fila-1;
+                } else { 
+                    nuevaFila = fila+2;
+                    filaInt = fila+1; 
+                }
+                int movimiento = moverFantasma(fantasmas[i],fila,col,nuevaFila,nuevaCol,filaInt,colInt); 
+                if (movimiento == 1) {
+                    movimientoValido= true; 
+                } else if (movimiento == 2){
+                    return false; 
+                }
+            }
+
+            while(!movimientoValido){
+                int direccion = new Random().nextInt(4);
+                nuevaFila = fila;
+                filaInt = fila;
+                nuevaCol = col;
+                colInt = col; 
+
+                switch(direccion){
+                    case 0: 
+                    nuevaFila-=2; 
+                    filaInt-=1;
+                    break; 
+                    case 1: 
+                    nuevaFila+=2;  
+                    filaInt+=1;
+                    break; 
+                    case 2: 
+                    nuevaCol-=2; 
+                    colInt-=1;
+                    break; 
+                    case 3: 
+                    nuevaCol+=2; 
+                    colInt+=1;
+                }
+                int movimiento = moverFantasma(fantasmas[i],fila,col,nuevaFila,nuevaCol,filaInt,colInt); 
+                if (movimiento == 1) {
+                    movimientoValido= true; 
+                } else if (movimiento == 2){
+                    return false; 
+                }
+            }
+        }
+        return true; 
+    }
+
+    private int moverFantasma(Fantasma fantasma,int fila,int col, int nuevaFila, int nuevaCol, int filaInt, int colInt ){
+        
+        if (validarCasilla(nuevaFila, nuevaCol) && validarCasilla(filaInt, colInt)) {
+            Celda anterior = tablero.tablero[fila][col];
+            Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
+            Celda intermedia = tablero.tablero[filaInt][colInt];
+            if((nueva.caracter != null && nueva.caracter.tipo == Caracter.PACMAN)
+            || (intermedia.caracter != null && intermedia.caracter.tipo == Caracter.PACMAN)){
+                return 2; 
+            }
+            nueva.caracter = fantasma;
+            anterior.caracter = null;
+            fantasma.posicion = new Posicion(nuevaFila, nuevaCol);
+            return 1; 
+        }
+        return 0; 
     }
 
     /**
@@ -124,7 +232,7 @@ public class Juego {
         if(nuevaFila>=tablero.tablero.length || nuevaFila<0){
             return false;
         }
-        
+
         //la longitud de la fila que representa el numero de columnas 
         if(nuevaCol>=tablero.tablero[0].length || nuevaCol<0){
             return false;
@@ -133,10 +241,6 @@ public class Juego {
         Celda nueva = tablero.tablero[nuevaFila][nuevaCol];
 
         if(nueva.esMuro){
-            return false; 
-        }
-
-        if(nueva.caracter != null){
             return false; 
         }
 

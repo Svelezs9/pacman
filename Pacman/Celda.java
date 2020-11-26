@@ -33,13 +33,15 @@ public class Celda {
      * @return caracter que representa el contenido de la celda
      */
     public char caracterCelda() {
-        if(esMuro) {
+        if(caracter != null) {
+         return caracter.representacion;
+        }
+        else if(esMuro) {
             return '*';
         } else if(tieneArepita) {
             return '.';
-        } else if(caracter != null) {
-            return caracter.representacion;
-        } else if (esSalida) {
+        }  
+         else if (esSalida) {
             return 'O';
         } else {
             return ' ';
